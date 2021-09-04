@@ -1,27 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <TheHomePage msg="Hello Vue 3 + Vite" />
-  <TheDupa />
+  <TheNavigation />
+  <router-view></router-view>
 </template>
 
 <script>
-import TheHomePage from "@/views/TheHomePage.vue";
-import TheDupa from "./views/TheDupa.vue";
+import TheNavigation from "@/components/TheNavigation.vue";
 export default {
-  components: {
-    TheHomePage,
-    TheDupa,
-  },
+  components: { TheNavigation },
 };
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

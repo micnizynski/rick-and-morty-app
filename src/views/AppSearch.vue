@@ -1,5 +1,5 @@
 <template>
-  <div class="dupa"></div>
+  <div class="">search</div>
 </template>
 
 <script>
