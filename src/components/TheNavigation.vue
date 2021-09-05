@@ -8,7 +8,7 @@
         <router-link to="/about">About</router-link>
       </li>
       <li class="navigation-list-item">
-        <router-link to="/search">Search</router-link>
+        <router-link to="/characters">Search</router-link>
       </li>
     </ul>
   </nav>
