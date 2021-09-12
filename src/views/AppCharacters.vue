@@ -4,21 +4,13 @@
   <p class="characters-number">
     <!-- Search from {{ characters.info.count }} available characters -->
   </p>
-  <PaginationBar />
+  <PaginationBar :current="currentPage" @fetch="fetchNewCharacters" />
   <CharacterCard
     v-for="character in characters.results"
     :key="character.id"
     :character="character"
   />
-  {{ characters.info }}
-  <PaginationBar />
-  <!-- <div class="pagination">
-    <button class="button-previous" @click="changePage(--pageNumber)">
-      Prev.
-    </button>
-    <span class="current-page">{{ pageNumber }}</span>
-    <button class="button-next" @click="changePage(++pageNumber)">Next</button>
-  </div> -->
+  <PaginationBar :current="currentPage" @fetch="fetchNewCharacters" />
 </template>
 
 <script setup>
@@ -29,7 +21,15 @@ import CharacterCard from "../components/CharacterCard.vue";
 import { fetchCharacters } from "../api/characters";
 
 const characters = ref({});
+const currentPage = ref(1);
 fetchCharacters().then(({ data }) => (characters.value = data));
+const fetchNewCharacters = (e) => {
+  characters.value = e;
+  const url = new URL(characters.value.info.next);
+  const urlParams = new URLSearchParams(url.search);
+  const nextPage = urlParams.get("page");
+  currentPage.value = nextPage - 1;
+};
 </script>
 
 <style scoped>

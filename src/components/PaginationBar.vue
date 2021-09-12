@@ -9,14 +9,25 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { fetchCharacters } from "../api/characters";
-const fetchData = ref({});
+const props = defineProps({
+  current: {
+    type: Number,
+    default: 1,
+  },
+});
+const emit = defineEmits(["fetch"]);
 const pageNumber = ref(1);
+watchEffect(() => {
+  pageNumber.value = props.current;
+});
 
 const changePage = (page = pageNumber.value) => {
   if (page < 1) return (pageNumber.value = 1);
-  fetchCharacters(page).then(({ data }) => (fetchData.value = data));
+  fetchCharacters(page).then(({ data }) => {
+    emit("fetch", data);
+  });
 };
 </script>
 
