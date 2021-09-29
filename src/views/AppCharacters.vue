@@ -1,26 +1,35 @@
 <template>
   <div class=""></div>
-  <SearchBar />
   <p class="characters-number">
     <!-- Search from {{ characters.info.count }} available characters -->
   </p>
   <PaginationBar :current="currentPage" @fetch="fetchNewCharacters" />
-  <CharacterCard
-    v-for="character in characters.results"
-    :key="character.id"
-    :character="character"
-  />
+  <div v-if="characters !== null" class="cards-container">
+    <transition-group name="slide-in-top">
+      <CharacterCard
+        v-for="character in characters.results"
+        :key="character.id"
+        :character="character"
+      />
+    </transition-group>
+  </div>
+  <div v-else class="loaders-container">
+    <CharacterCardLoader />
+    <CharacterCardLoader />
+    <CharacterCardLoader />
+    <CharacterCardLoader />
+  </div>
   <PaginationBar :current="currentPage" @fetch="fetchNewCharacters" />
 </template>
 
 <script setup>
 import { ref } from "vue";
-import SearchBar from "../components/SearchBar.vue";
 import PaginationBar from "../components/PaginationBar.vue";
 import CharacterCard from "../components/CharacterCard.vue";
+import CharacterCardLoader from "../components/CharacterCardLoader.vue";
 import { fetchCharacters } from "../api/characters";
 
-const characters = ref({});
+const characters = ref(null);
 const currentPage = ref(1);
 fetchCharacters().then(({ data }) => (characters.value = data));
 const fetchNewCharacters = (e) => {
@@ -52,5 +61,20 @@ const fetchNewCharacters = (e) => {
   box-shadow: 0px 6px 15px 5px rgba(0, 0, 0, 0.24);
   cursor: pointer;
   font-weight: bold;
+}
+.slide-in-top-enter-active {
+  animation: fade 0.5s ease;
+}
+.slide-in-top-leave-active {
+  animation: fade 0.5s ease reverse;
+}
+@keyframes fade {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>
